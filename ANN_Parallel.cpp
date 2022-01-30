@@ -24,9 +24,8 @@ const int N[L] = {IN, 16, 16, OUT}; // Number of Nodes in each Layer
 db image[T][IN]; // Image Data
 int ans[T]; // Label of Image Data (Answer)
 const int GROUP = 100; // Learning Group (Upgrade the network by GROUP numbers of Learning Data)
-const int NUM = 600; // Number of Learning Group
-const int TOT = 15000; // Number of ANN, 10 24s, 1500 45min, 2000 1h
-const int THR = 20; // Number of Threads
+const int TOT = 100000; // Number of ANN, 1 7s
+const int THR = 8; // Number of Threads
 struct mat{ // Matrix Data Struct
 	int n, m; // Size of Matrix : n * m
 	vdd M;
@@ -223,7 +222,7 @@ void ANN() { // Artificial Neural Network
 	for (int _i = 0; _i < TOT; _i++) {
 		random_shuffle(perm.begin(), perm.end());
 		db Cost = 0;
-		for (int i = 0; i < GROUP * NUM; i += GROUP * THR) {
+		for (int i = 0; i < T; i += GROUP * THR) {
 			layer grad[THR][L]; // average gradient of a group for each thread
 			db cost[THR] = {0}; // average cost of a group
 			thread th[THR];
@@ -237,10 +236,14 @@ void ANN() { // Artificial Neural Network
 				th[t].join();
 			}
 			for (int i = 1; i < L; i++) { // Upgrade Network
-				for (int t = 0; t < THR; t++) {
-					baseNet[i].w = baseNet[i].w + grad[t][i].w * (-1.0 / GROUP);
-					baseNet[i].b = baseNet[i].b + grad[t][i].b * (-1.0 / GROUP);
+				for (int t = 1; t < THR; t++) {
+					grad[0][i].w = grad[0][i].w + grad[t][i].w;
+					grad[0][i].b = grad[0][i].b + grad[t][i].b;
 				}
+			}
+			for (int i = 1; i < L; i++) {
+				baseNet[i].w = baseNet[i].w + grad[0][i].w * (-1.0 / (GROUP * THR));
+				baseNet[i].b = baseNet[i].b + grad[0][i].b * (-1.0 / (GROUP * THR));
 			}
 			for (int t = 0; t < THR; t++) {
 				Cost += cost[t] / GROUP;
