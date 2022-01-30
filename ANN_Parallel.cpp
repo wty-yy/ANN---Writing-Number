@@ -25,7 +25,7 @@ db image[T][IN]; // Image Data
 int ans[T]; // Label of Image Data (Answer)
 const int GROUP = 100; // Learning Group (Upgrade the network by GROUP numbers of Learning Data)
 const int NUM = 600; // Number of Learning Group
-const int TOT = 1500; // Number of ANN, 10 24s, 1500 45min, 2000 1h
+const int TOT = 15000; // Number of ANN, 10 24s, 1500 45min, 2000 1h
 const int THR = 20; // Number of Threads
 struct mat{ // Matrix Data Struct
 	int n, m; // Size of Matrix : n * m
