@@ -192,8 +192,8 @@ void ANN() { // Artificial Neural Network
 		for (int l = 1; l < L; l++) {
 			for (int i = 0; i < N[l]; i++) {
 				for (int j = 0; j < N[l-1]; j++)
-					baseNet[l].w.M[i][j] = getrand() * 2 - 1; // rand in [-1,1] is better
-				baseNet[l].b.M[i][0] = getrand() * 2 - 1;
+					baseNet[l].w.M[i][j] = getrand();
+				baseNet[l].b.M[i][0] = getrand();
 			}
 		}
 	} else { // Using last Learning Data
