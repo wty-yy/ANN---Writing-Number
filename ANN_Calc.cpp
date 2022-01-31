@@ -19,7 +19,7 @@ int T; // Number of Total training Data
 const int L = 4; // Number of Layers (contains Input layer and Output layer)
 const int IN = 784; // Number of Nodes in Layer 1 (Input Layer)
 const int OUT = 10; // Number of Nodes in Layer L-1 (Output Layer)
-const int N[L] = {IN, 16, 16, OUT}; // Number of Nodes in each Layer
+const int N[L] = {IN, 32, 32, OUT}; // Number of Nodes in each Layer
 //vd N(L); 
 vdd image; // Image Data
 struct mat{ // Matrix Data Struct
@@ -91,7 +91,7 @@ struct layer { // Layer of the Network
 }baseNet[L]; // basic network
 db getrand() { return 1.0 * rand() / RAND_MAX; }
 void init() { // initialize Training Data
-	freopen("mytest.in", "r", stdin);
+	freopen("mytest1.in", "r", stdin);
 	scanf("%d", &T);
 	//T = 10;
 	image = vdd(T, vd(IN));
